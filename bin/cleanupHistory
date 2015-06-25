@@ -1,0 +1,35 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+use Getopt::Long;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use OBS::Package::RevisionList;
+
+my $project;
+my $package;
+
+if (! GetOptions('package=s'=>\$package, 'project=s'=>\$project) ) {
+	printf("Usage: %s --project=<PROJECT> --package=<PACKAGE>",$0);
+	exit 1;
+}
+
+
+
+
+
+my $rev_list = OBS::Package::RevisionList->new(
+		project=>$project,
+		package=>$package,
+		path_to_obs=>'/root/cleanupOBS/srv/obs/'
+	  );
+
+$rev_list->read_from_file();
+
+$rev_list->cleanup_revisions();
+
+exit 0;
